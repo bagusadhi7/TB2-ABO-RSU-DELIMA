@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSU Delima - Sistem Perjanjian Pasien</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <div id="mainNavbar">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://th.bing.com/th/id/OIP.ednaJP6GatbUkkj49WP1bAHaG6?rs=1&pid=ImgDetMain" style="height:40px;margin-right:10px;vertical-align:middle;">
+                <span style="color:#1a73e8;font-weight:700;font-size:24px;">RSU Delima</span>
+            </div>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Menu" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" onclick="showSection('home')">Beranda</a></li>
+                <li><a href="#tentang" onclick="showSection('home')">Tentang Kami</a></li>
+                <li><a href="#layanan" onclick="showSection('home')">Layanan</a></li>
+                <li><a href="#dokter" onclick="showSection('home')">Dokter Kami</a></li>
+                <li><a href="#kontak" onclick="showSection('home')">Kontak</a></li>
+            </ul>
+            <button class="btn btn-success navbar-login-btn" onclick="showLoginOptions()">Login</button>
+        </nav>
+    </div>
+    <script>
+    function toggleMenu() {
+        var nav = document.getElementById('navLinks');
+        nav.classList.toggle('active');
+    }
+    // Optional: Hide nav when clicking outside (mobile)
+    document.addEventListener('click', function(e) {
+        var nav = document.getElementById('navLinks');
+        var btn = document.getElementById('hamburgerBtn');
+        if (window.innerWidth <= 900) {
+            if (!nav.contains(e.target) && !btn.contains(e.target)) {
+                nav.classList.remove('active');
+            }
+        }
+    });
+    </script>
+
+    <!-- Home Section -->
+    <section id="homeSection" class="hero-section">
+        <div class="hero-banner">
+            <div class="hero-overlay"></div>
+            <img src="https://media.istockphoto.com/id/2154939744/id/foto/potret-dua-perawat-muda-berdiri-bersama-di-belakang-meja-resepsionis-rumah-sakit.jpg?s=2048x2048&w=is&k=20&c=UKoLhKaIymL5AAa3SbDSBHrxPHGtJmlKb4shih2KxjM=" alt="Hero Banner" class="banner-image">
+            <div class="hero-content">
+                <h1>Selamat Datang di RSU Delima</h1>
+                <h2>Pelayanan Kesehatan Profesional untuk Anda</h2>
+                <p>Kami berkomitmen memberikan perawatan terbaik dengan teknologi terkini dan dokter berpengalaman.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="showLogin('patient')">Buat Janji Temu</button>
+                    <a href="#" class="btn btn-secondary">Jelajahi Layanan Kami</a>
+                </div>
+            </div>
+        </div>
+        <div class="features-section">
+            <h3>Keunggulan Kami</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <i class="fas fa-user-md"></i>
+                    <h4>Dokter Berpengalaman</h4>
+                    <p>Tim dokter spesialis kami siap memberikan perawatan terbaik.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-hospital"></i>
+                    <h4>Fasilitas Modern</h4>
+                    <p>Didukung teknologi medis terkini untuk diagnosis akurat.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-clock"></i>
+                    <h4>Layanan 24/7</h4>
+                    <p>Unit gawat darurat kami siap melayani kapan saja.</p>
+                </div>
+            </div>
+        </div>
+        <div class="doctors-section">
+            <h3>Tim Dokter Kami</h3>
+            <div class="doctor-grid">
+                <div class="doctor-card">
+                    <img src="https://cdn.pixabay.com/photo/2024/08/13/11/42/ai-generated-8965801_960_720.png" alt="Dr. Ahmad">
+                    <h4>Dr. Ahmad Susanto</h4>
+                    <p>Dokter Umum</p>
+                    <span>Delima Ciputat</span>
+                </div>
+                <div class="doctor-card">
+                    <img src="https://cdn.pixabay.com/photo/2020/06/20/15/30/woman-doctor-5321351_640.jpg" alt="Dr. Sarah">
+                    <h4>Dr. Sarah Putri</h4>
+                    <p>Dokter Gigi</p>
+                    <span>Delima Joglo</span>
+                </div>
+                <div class="doctor-card">
+                    <img src="https://cdn.pixabay.com/photo/2025/05/22/14/43/doctor-9615942_640.jpg" alt="Dr. Rudi">
+                    <h4>Dr. Rudi Santoso</h4>
+                    <p>Spesialis Dalam</p>
+                    <span>Delima Bekasi</span>
+                </div>
+            </div>
+            <a href="#" class="btn btn-secondary">Lihat Semua Dokter</a>
+        </div>
+    </section>
+
+    <!-- Login Sections -->
+    <section id="patientLoginSection" class="login-section hidden">
+        <div class="login-box">
+            <h3>Login Pasien</h3>
+            <form id="patientLoginForm" onsubmit="event.preventDefault(); showDashboard('patient');">
+                <div class="form-group">
+                    <label>No. Rumah Sakit</label>
+                    <input type="text" id="patientId" placeholder="Masukkan No. RS">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="patientPassword" placeholder="Masukkan Password">
+                </div>
+                <button type="submit" class="btn btn-primary">Masuk</button>
+            </form>
+            <p class="register-link">Belum punya akun? <a href="#" onclick="showRegister()">Daftar di sini</a></p>
+        </div>
+    </section>
+
+    <!-- Patient Registration Section -->
+    <section id="patientRegisterSection" class="login-section hidden">
+        <div class="login-box">
+            <h3>Registrasi Pasien</h3>
+            <form id="patientRegisterForm" onsubmit="event.preventDefault(); registerPatientBaru();">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="registerEmail" placeholder="Masukkan Email" required>
+                </div>
+                <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="registerName" placeholder="Masukkan Nama Lengkap" required>
+                </div>
+                <div class="form-group">
+                    <label>Tanggal Lahir</label>
+                    <input type="date" id="registerBirthDate" required>
+                </div>
+                <div class="form-group">
+                    <label>NIK</label>
+                    <input type="text" id="registerNIK" placeholder="Masukkan NIK" required>
+                </div>
+                <div class="form-group">
+                    <label>Buat Password</label>
+                    <input type="password" id="registerPassword" placeholder="Buat Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Daftar</button>
+            </form>
+            <p class="register-link">Sudah punya akun? <a href="#" onclick="showLogin('patient')">Login di sini</a></p>
+        </div>
+    </section>
+
+    <section id="doctorLoginSection" class="login-section hidden">
+        <div class="login-box">
+            <h3>Login Dokter</h3>
+            <form id="doctorLoginForm" onsubmit="event.preventDefault(); showDashboard('doctor');">
+                <div class="form-group">
+                    <label>ID Dokter</label>
+                    <input type="text" id="doctorId" placeholder="Masukkan ID Dokter">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="doctorPassword" placeholder="Masukkan Password">
+                </div>
+                <button type="submit" class="btn btn-primary">Masuk</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="adminLoginSection" class="login-section hidden">
+        <div class="login-box">
+            <h3>Login Admin</h3>
+            <form id="adminLoginForm" onsubmit="event.preventDefault(); showDashboard('admin');">
+                <div class="form-group">
+                    <label>Username Admin</label>
+                    <input type="text" id="adminId" placeholder="Masukkan Username">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="adminPassword" placeholder="Masukkan Password">
+                </div>
+                <button type="submit" class="btn btn-primary">Masuk</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Dashboard Sections -->
+    <section id="patientDashboard" class="dashboard hidden">
+        <div class="dashboard-header">
+            <h2>PASIEN</h2>
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
+        </div>
+        <div class="dashboard-content">
+            <div class="card">
+                <h4>Informasi Pasien</h4>
+                <p><strong>Nama:</strong> <span id="patientName">John Doe</span></p>
+                <p><strong>No. RS:</strong> <span id="patientRM">RM001</span></p>
+                <p><strong>No. Telepon:</strong> <span id="patientPhone">081234567890</span></p>
+            </div>
+            <div class="card">
+                <h4>Buat Perjanjian Baru</h4>
+                <div class="form-group">
+                    <label>Pilih Tanggal</label>
+                    <input type="date" id="appointmentDate" required>
+                </div>
+                <button class="btn btn-primary" onclick="showPoliSelection()">Pilih Poliklinik</button>
+            </div>
+            <div class="card">
+                <h4>Perjanjian Saya</h4>
+                <div class="table-wrapper">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Poliklinik</th>
+                                <th>Dokter</th>
+                                <th>Jam</th>
+                                <th>No. Antrian</th>
+                                <th>Estimasi Layanan</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="patientAppointments"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <h4>Riwayat Rekam Medis</h4>
+                <div class="table-wrapper">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Poliklinik</th>
+                                <th>Dokter</th>
+                                <th>Diagnosis</th>
+                                <th>Terapi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="patientMedicalRecords"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="doctorDashboard" class="dashboard hidden">
+        <div class="dashboard-header">
+            <h2>DOKTER</h2>
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
+        </div>
+        <div class="dashboard-content">
+            <div class="card">
+                <h4>Informasi Dokter</h4>
+                <p><strong>Nama:</strong> <span id="doctorName">Dr. Ahmad Susanto</span></p>
+                <p><strong>Spesialisasi:</strong> <span id="doctorSpec">Dokter Umum</span></p>
+                <p><strong>Poliklinik:</strong> <span id="doctorPoli">Poli Umum</span></p>
+            </div>
+            <div class="card">
+                <h4>Jadwal Praktek Minggu Ini</h4>
+                <div class="table-wrapper">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Hari</th>
+                                <th>Jam</th>
+                                <th>Jumlah Pasien</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="doctorSchedule"></tbody>
+                    </table>
+                </div>
+            </div>            <div class="card">
+                <h4>Pasien Hari Ini</h4>
+                <div class="table-wrapper">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>No. Antrian</th>
+                                <th>Nama Pasien</th>
+                                <th>No. RS</th>
+                                <th>Jam Perkiraan</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="todayPatients"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <h4>Cari Rekam Medis Pasien</h4>
+                <div class="form-group">
+                    <label>No. Rekam Medis Pasien</label>
+                    <div class="search-group">
+                        <input type="text" id="doctorSearchPatientRM" placeholder="Masukkan No. RM Pasien">
+                        <button class="btn btn-primary" onclick="searchPatientMedicalRecordsByDoctor()">
+                            <i class="fas fa-search"></i> Cari
+                        </button>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Nama Pasien</th>
+                                <th>No. RM</th>
+                                <th>Poliklinik</th>
+                                <th>Dokter</th>
+                                <th>Diagnosis</th>
+                                <th>Terapi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="doctorPatientRecords"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="adminDashboard" class="dashboard hidden">
+        <div class="admin-header">
+            <h2>Dashboard Admin</h2>
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
+        </div>
+        <div class="admin-content">
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <h4>Total Pasien</h4>
+                    <p id="totalPatients">0</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-user-md"></i>
+                    <h4>Total Dokter</h4>
+                    <p id="totalDoctors">0</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h4>Jadwal Aktif</h4>
+                    <p id="activeSchedules">0</p>
+                </div>
+            </div>
+            <div class="admin-actions">
+                <div class="action-card">
+                    <h4>Manajemen Sistem</h4>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="viewAllAppointments()">Lihat Semua Perjanjian</button>
+                        <button class="btn btn-success" onclick="manageDoctors()">Kelola Data Dokter</button>
+                        <button class="btn btn-info" onclick="manageSchedules()">Kelola Jadwal Dokter</button>
+                    </div>
+                </div>
+                <div class="action-card">
+                    <h4>Rekap Kunjungan</h4>                    <div class="form-group">
+                        <label>Periode</label>
+                        <div class="date-range">
+                            <input type="date" id="reportStartDate">
+                            <span>s/d</span>
+                            <input type="date" id="reportEndDate">
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="updateReports()">Tampilkan</button>
+                            <button class="btn btn-success" onclick="cetakRekapKunjungan()"><i class="fas fa-print"></i> Cetak</button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Poliklinik</th>
+                                    <th>Tanggal</th>
+                                    <th>Jumlah Pasien</th>
+                                    <th>Dokter</th>
+                                </tr>
+                            </thead>
+                            <tbody id="visitReports"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="action-card">
+                    <h4>Rekap Rekam Medis</h4>                    <div class="form-group">
+                        <label>Periode</label>
+                        <div class="date-range">
+                            <input type="date" id="reportStartDate2">
+                            <span>s/d</span>
+                            <input type="date" id="reportEndDate2">
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="updateAdminMedicalReports()">Tampilkan</button>
+                            <button class="btn btn-success" onclick="cetakRekamMedis()"><i class="fas fa-print"></i> Cetak</button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>No. RM</th>
+                                    <th>Nama Pasien</th>
+                                    <th>Tanggal</th>
+                                    <th>Poliklinik</th>
+                                    <th>Dokter</th>
+                                    <th>Diagnosis</th>
+                                    <th>Terapi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="medicalReports"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="action-card">
+                    <h4>Kelola Rekam Medis</h4>
+                    <div class="form-group">
+                        <label>Cari Pasien</label>
+                        <input type="text" id="searchPatientId" placeholder="Masukkan No. RM Pasien">
+                        <button class="btn btn-primary" onclick="searchPatientMedicalRecords()">Cari</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>No. RM</th>
+                                    <th>Nama Pasien</th>
+                                    <th>Tanggal</th>
+                                    <th>Poliklinik</th>
+                                    <th>Dokter</th>
+                                    <th>Diagnosis</th>
+                                    <th>Terapi</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminMedicalRecords"></tbody>
+                        </table>
+                    </div>
+                    <button class="btn btn-success" onclick="showAddMedicalRecordForm()">Tambah Rekam Medis</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-box">
+            <h4>Jam Operasional</h4>
+            <p>Senin – Kamis: 08:00 – 19:00</p>
+            <p>Jumat: 08:00 – 18:00</p>
+            <p>Sabtu: 09:30 – 17:00</p>
+            <p>Minggu: 09:30 – 15:00</p>
+        </div>
+        <div class="footer-box">
+            <h4>Darurat</h4>
+            <p class="emergency-contact">
+                <i class="fas fa-phone"></i>
+                021 586 778 888
+            </p>
+            <p>Layanan darurat tersedia 24/7.</p>
+        </div>
+        <div class="footer-box">
+            <h4>Kontak Kami</h4>
+            <p><i class="fas fa-envelope"></i> info@rsdelima.com</p>
+            <p><i class="fab fa-whatsapp"></i> +62 812 345 6789</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="poliModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('poliModal')">×</span>
+            <h3>Pilih Poliklinik</h3>
+            <div class="poli-grid">
+                <div class="poli-card" onclick="selectPoli('umum')">
+                    <h5>Poli Umum</h5>
+                    <p>Pemeriksaan kesehatan umum</p>
+                </div>
+                <div class="poli-card" onclick="selectPoli('gigi')">
+                    <h5>Poli Gigi</h5>
+                    <p>Perawatan kesehatan gigi dan mulut</p>
+                </div>
+                <div class="poli-card" onclick="selectPoli('dalam')">
+                    <h5>Poli Penyakit Dalam</h5>
+                    <p>Spesialis penyakit dalam</p>
+                </div>
+                <div class="poli-card" onclick="selectPoli('kandungan')">
+                    <h5>Poli Kandungan</h5>
+                    <p>Kesehatan ibu dan anak</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="scheduleModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('scheduleModal')">×</span>
+            <h3 id="scheduleTitle">Jadwal Dokter</h3>
+            <div id="scheduleContent"></div>
+        </div>
+    </div>
+
+    <!-- Login Options Modal -->
+    <div id="loginOptionsModal" class="modal" style="display:none;">
+      <div class="modal-content" style="max-width:400px;text-align:center;">
+        <span class="close" onclick="closeModal('loginOptionsModal')">&times;</span>
+        <h3>Pilih Login Sebagai</h3>
+        <div style="display:flex;flex-direction:column;gap:16px;margin-top:24px;">
+          <button class="btn btn-primary" onclick="showLogin('patient');closeModal('loginOptionsModal')">Pasien</button>
+          <button class="btn btn-primary" onclick="showLogin('doctor');closeModal('loginOptionsModal')">Dokter</button>
+          <button class="btn btn-primary" onclick="showLogin('admin');closeModal('loginOptionsModal')">Admin</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
